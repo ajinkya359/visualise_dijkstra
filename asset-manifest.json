@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/ajinkya359/visualise_dijkstra/static/css/main.d6c510c8.chunk.css",
-    "main.js": "/ajinkya359/visualise_dijkstra/static/js/main.42b69c3e.chunk.js",
-    "main.js.map": "/ajinkya359/visualise_dijkstra/static/js/main.42b69c3e.chunk.js.map",
-    "runtime-main.js": "/ajinkya359/visualise_dijkstra/static/js/runtime-main.572b9cc7.js",
-    "runtime-main.js.map": "/ajinkya359/visualise_dijkstra/static/js/runtime-main.572b9cc7.js.map",
-    "static/js/2.7fb22670.chunk.js": "/ajinkya359/visualise_dijkstra/static/js/2.7fb22670.chunk.js",
-    "static/js/2.7fb22670.chunk.js.map": "/ajinkya359/visualise_dijkstra/static/js/2.7fb22670.chunk.js.map",
-    "index.html": "/ajinkya359/visualise_dijkstra/index.html",
-    "precache-manifest.069530242dc0e034daeedda55542fcbe.js": "/ajinkya359/visualise_dijkstra/precache-manifest.069530242dc0e034daeedda55542fcbe.js",
-    "service-worker.js": "/ajinkya359/visualise_dijkstra/service-worker.js",
-    "static/css/main.d6c510c8.chunk.css.map": "/ajinkya359/visualise_dijkstra/static/css/main.d6c510c8.chunk.css.map",
-    "static/js/2.7fb22670.chunk.js.LICENSE.txt": "/ajinkya359/visualise_dijkstra/static/js/2.7fb22670.chunk.js.LICENSE.txt"
+    "main.css": "/visualise_dijkstra/static/css/main.d6c510c8.chunk.css",
+    "main.js": "/visualise_dijkstra/static/js/main.42b69c3e.chunk.js",
+    "main.js.map": "/visualise_dijkstra/static/js/main.42b69c3e.chunk.js.map",
+    "runtime-main.js": "/visualise_dijkstra/static/js/runtime-main.0e2482ac.js",
+    "runtime-main.js.map": "/visualise_dijkstra/static/js/runtime-main.0e2482ac.js.map",
+    "static/js/2.7fb22670.chunk.js": "/visualise_dijkstra/static/js/2.7fb22670.chunk.js",
+    "static/js/2.7fb22670.chunk.js.map": "/visualise_dijkstra/static/js/2.7fb22670.chunk.js.map",
+    "index.html": "/visualise_dijkstra/index.html",
+    "precache-manifest.3acd47b3a565d3478be19f35e6fa3e7d.js": "/visualise_dijkstra/precache-manifest.3acd47b3a565d3478be19f35e6fa3e7d.js",
+    "service-worker.js": "/visualise_dijkstra/service-worker.js",
+    "static/css/main.d6c510c8.chunk.css.map": "/visualise_dijkstra/static/css/main.d6c510c8.chunk.css.map",
+    "static/js/2.7fb22670.chunk.js.LICENSE.txt": "/visualise_dijkstra/static/js/2.7fb22670.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.572b9cc7.js",
+    "static/js/runtime-main.0e2482ac.js",
     "static/js/2.7fb22670.chunk.js",
     "static/css/main.d6c510c8.chunk.css",
     "static/js/main.42b69c3e.chunk.js"
