@@ -8,6 +8,9 @@ class Node extends React.Component{
         }
     }
     
+    handleClick=(e)=>{
+        this.props.onClick(this.props.row,this.props.col)
+    }
     render(){
         // {console.log('called')}
             // if(isVisited) 
@@ -25,7 +28,7 @@ class Node extends React.Component{
             extraClassname="node-end"
 
         return(
-            <div className={`node ${extraClassname}`} id={`${this.props.row}-${this.props.col}`}>
+            <div className={`node ${extraClassname}`} id={`${this.props.row}-${this.props.col}`} onClick={this.handleClick}>
             </div>
         )
     }

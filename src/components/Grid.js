@@ -3,10 +3,10 @@ import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
 const rows=25;
-const start_node_row=10
-const start_node_col=0
-const end_node_row=10
-const end_node_col=20
+var start_node_row=10
+var start_node_col=20
+var end_node_row=23
+var end_node_col=28   
 const columns=50;
 class Grid extends React.Component{
     constructor(props)
@@ -14,6 +14,8 @@ class Grid extends React.Component{
         super(props)
         this.state={
             grid:[],
+            set:null,
+            reset:false,
             start_node_row:start_node_row,
             start_node_col:start_node_col,
             end_node_row: end_node_row,
@@ -21,13 +23,54 @@ class Grid extends React.Component{
         }
         this.visualise=this.visualise.bind(this)
         this.handleReset=this.handleReset.bind(this)
+        this.handleClick=this.handleClick.bind(this)
+        this.setToStart=this.setToStart.bind(this)
+        this.setToEnd=this.setToEnd.bind(this)
 
-        }
+    }
     
+    handleClick=(row,col)=>{
+        if(!this.state.set) {
+            console.log("Choose what to set")
+            return;
+        }
+        if(this.state.reset)
+        this.handleReset()
+        if(this.state.set===1){
+        var temp=this.state.grid;
+        temp[this.state.start_node_row][start_node_col].isStart=false
+        temp[row][col].isStart=true
+        document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node"
+        document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).isStart=false
+        document.getElementById(`${row}-${col}`).className="node node-start"
+        document.getElementById(`${row}-${col}`).isStart=true;
+        start_node_row=row
+        start_node_col=col
+        this.setState({start_node_row:row,start_node_col:col,grid:temp})
+        console.log("Clicked")
+        }
+        else{
+            var temp=this.state.grid;
+        temp[this.state.end_node_row][end_node_col].isEnd=false
+        temp[row][col].isEnd=true
+        document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node"
+        document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).isEnd=false
+        document.getElementById(`${row}-${col}`).className="node node-finish"
+        document.getElementById(`${row}-${col}`).isEnd=true;
+        end_node_row=row
+        end_node_col=col
+        this.setState({end_node_row:row,end_node_col:col,grid:temp})
+        console.log("Clicked")
+        }
+    }
     visualise(){
+    if(this.state.reset)
+    {
+        this.handleReset();
+    }
+    this.setState({reset:true})
     var temp=this.state.grid
     const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
-    console.log(temp)
     
         for(let i=0;i<=order.length;i++)
        {
@@ -54,7 +97,17 @@ class Grid extends React.Component{
        }
        
     }
+    setToStart(){
+        var temp =1
+        // e.style="background_color=green"
+        this.setState({set:temp})
+    }
+    setToEnd(){
+        var temp =2
+        this.setState({set:temp})
+    }
     handleReset(){
+        
         var temp=this.state.grid;
         const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
         if(order.length)
@@ -69,6 +122,7 @@ class Grid extends React.Component{
         // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
        } 
         }
+    
     }
     componentDidMount(){//is called only once in the start
         var g=[];
@@ -109,14 +163,16 @@ class Grid extends React.Component{
                             isStart={idr===this.state.start_node_row?(idc===this.state.start_node_col?true:false):false}
                             isEnd={idr===this.state.end_node_row?(idc===this.state.end_node_col?true:false):false}
                             distance={col.distance}
-                            isVisited={col.isVisited}/>
-
+                            isVisited={col.isVisited}
+                            onClick={this.handleClick}>
+                            </Node>
+                            
                         )}
                     </div>
                 ))}
+                <button onClick={this.setToStart}>Set Start</button>
+                <button onClick={this.setToEnd}>Set End</button>
                 <button onClick={this.visualise}> visualise</button>
-                
-                
                 <button onClick={this.handleReset}>Reset</button>
             </div>
         )
