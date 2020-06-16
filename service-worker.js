@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/visualise_dijkstra/precache-manifest.bf1592643ef7bb072f98646c1b8298cc.js"
+  "/visualise_dijkstra/precache-manifest.9dc0534ac69f1b76b4524c16fa5faa25.js"
 );
 
 self.addEventListener('message', (event) => {
