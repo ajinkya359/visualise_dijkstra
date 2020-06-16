@@ -10,18 +10,21 @@ class Node extends React.Component{
     
     render(){
         // {console.log('called')}
-        console.log("node")
-        const  {isStart,isEnd}=this.props;
-        // if(isVisited) 
+            // if(isVisited) 
         // this.setState({isVisited:isVisited})
         let extraClassname
         // if(this.props.isVisited){
         // extraClassname='visited'
 
         // }
-        extraClassname=isStart?'node-start':(isEnd?'node-end':this.props.isVisited?'visited':'node');
         if(this.props.isVisited)
             extraClassname="visited"
+        if(this.props.isStart)
+            extraClassname="node-start"
+        if(this.props.isEnd)
+            extraClassname="node-end"
+
+
         return(
             <div className={`node ${extraClassname}`}>
             </div>

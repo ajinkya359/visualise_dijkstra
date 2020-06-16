@@ -4,9 +4,9 @@ import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
 var g=[]
 const rows=25;
-const start_node_row=0
-const start_node_col=20
-const end_node_row=1
+const start_node_row=20
+const start_node_col=30
+const end_node_row=10
 const end_node_col=10
 const columns=50;
 class Grid extends React.Component{
@@ -22,6 +22,7 @@ class Grid extends React.Component{
         }
         this.visualise=this.visualise.bind(this)
     }
+    
     visualise(){
         var grid=[];
         for(let i=0;i<rows;i++)
@@ -58,13 +59,13 @@ class Grid extends React.Component{
            )
         //    console.log(temp1[order[i].row].props.children[order[i].col].props.isVisited)
 
-            g=[]
-            this.setState({grid:[]})
-            g=temp1;
-            this.setState({grid:temp1})
+            
         //    g=this.state.grid
         //    console.log(this.state.grid)
-       }          
+       }      
+     
+            g=temp1;
+            this.setState({grid:temp1})    
        
         // console.log(this.state.grid)
 
@@ -100,7 +101,6 @@ class Grid extends React.Component{
                 </div>
             )
         }
-        
        this.setState({grid:grid})
     }
     
@@ -108,7 +108,7 @@ class Grid extends React.Component{
       console.log("called")
         return(
             <div className="grid">
-                {this.state.grid}
+                {g}
                 <button onClick={this.visualise}> visualise</button>
             </div>
         )

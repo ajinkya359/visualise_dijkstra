@@ -9,9 +9,6 @@ export function dykstra(grid,start_row,start_col,end_row,end_col){
         for(let j=0;j<grid[0].length;j++)
             queue.push(grid[i][j]);
     }
-    grid[0][1].distance=1;
-    queue.sort((a,b)=>{return a.distance>b.distance?1:-1})
-    console.log(queue[1].distance)
     while(queue.length)
     {
         queue.sort((a,b)=>{return a.distance>b.distance?1:-1})
@@ -25,7 +22,7 @@ export function dykstra(grid,start_row,start_col,end_row,end_col){
                 max(grid[temp.row][temp.col+1],grid[temp.row][temp.col])
                 max(grid[temp.row-1][temp.col],grid[temp.row][temp.col])
             }
-            else if(temp.col===grid[0].length)
+            else if(temp.col===grid[0].length-1)
             {
                 max(grid[temp.row+1][temp.col],grid[temp.row][temp.col])
                 max(grid[temp.row][temp.col-1],grid[temp.row][temp.col])
