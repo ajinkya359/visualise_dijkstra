@@ -2,13 +2,17 @@
 export function dykstra(grid,start_row,start_col,end_row,end_col){
     var queue=[];
     var order=[];
-    grid[start_row][start_col].distance=0;
     //Initialised the queue
     for(let i=0;i<grid.length;i++)
     {
-        for(let j=0;j<grid[0].length;j++)
+        for(let j=0;j<grid[0].length;j++){
+            grid[i][j].parent=null;
+            grid[i][j].distance=Infinity
             queue.push(grid[i][j]);
+        }
     }
+    grid[start_row][start_col].distance=0;
+
     while(queue.length)
     {
         queue.sort((a,b)=>{return a.distance>b.distance?1:-1})
