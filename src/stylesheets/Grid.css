@@ -1,0 +1,10 @@
+.grid-row{
+    display: flex;
+}
+.grid{
+    margin-top: 20vh;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 18vh;
+
+}
