@@ -152,6 +152,8 @@ class Grid extends React.Component{
     render(){
         return(
             <div className="grid">
+                      <header>Dijkstra's algorithm</header>
+
                 {this.state.grid.map((row,idr)=>(
                     <div className="grid-row" key={idr*1000+1}>
                         {row.map((col,idc)=>
