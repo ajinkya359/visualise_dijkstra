@@ -23,10 +23,10 @@ class Node extends React.Component{
             extraClassname="node-start"
         if(this.props.isEnd)
             extraClassname="node-end"
-
+        console.log(this.props.row*10+this.props.col)
 
         return(
-            <div className={`node ${extraClassname}`}>
+            <div className={`node ${extraClassname}`} id={`${this.props.row}-${this.props.col}`}>
             </div>
         )
     }

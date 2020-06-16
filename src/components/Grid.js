@@ -3,7 +3,6 @@ import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
 const rows=25;
-var fi=[]
 const start_node_row=3
 const start_node_col=20
 const end_node_row=10
@@ -24,15 +23,24 @@ class Grid extends React.Component{
     }
     
     visualise(){   
-       const order=dykstra(fi,start_node_row,start_node_col,end_node_row,end_node_col);
+       const order=dykstra(this.state.grid,start_node_row,start_node_col,end_node_row,end_node_col);
        var temp1=this.state.grid;
         for(let i=0;i<order.length;i++)
        {
         //    console.log(temp1[order[i].row].props.children[order[i].col].props.isVisited)
-           temp1[order[i].row][order[i].col].isVisited=true
-           fi=temp1
-           this.setState({grid:temp1})
-           setTimeout(1000)
+        //    temp1[order[i].row][order[i].col].isVisited=true
+        //    fi=temp1
+        //    this.setState({grid:temp1})
+        //    setTimeout(1000)
+        setTimeout(()=>{
+            // console.log(order[i].row*10+order[i].col)
+            // console.log(document.getElementById(`${order[i].row}-${order[i].col}`))
+            document.getElementById(`${order[i].row}-${order[i].col}`).className="node visited"
+            document.getElementById(`${start_node_row}-${start_node_col}`).className="node node-start"
+            document.getElementById(`${end_node_row}-${end_node_col}`).className="node node-end"    
+        },10*i)
+        
+        // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
        }      
     }
     componentDidMount(){//is called only once in the start
@@ -57,7 +65,6 @@ class Grid extends React.Component{
             }
             g.push(temp)
         }
-        fi=g
        this.setState({grid:g})
     }
     
@@ -65,7 +72,7 @@ class Grid extends React.Component{
       console.log("called")
         return(
             <div className="grid">
-                {fi.map((row,idr)=>(
+                {this.state.grid.map((row,idr)=>(
                     <div className="grid-row" key={idr*1000+1}>
                         {row.map((col,idc)=>
                         <Node
@@ -75,7 +82,6 @@ class Grid extends React.Component{
                             key={idr*10+idc} 
                             isStart={idr===this.state.start_node_row?(idc===this.state.start_node_col?true:false):false}
                             isEnd={idr===this.state.end_node_row?(idc===this.state.end_node_col?true:false):false}
-                            id={row*10+col}
                             distance={col.distance}
                             isVisited={col.isVisited}/>
 
