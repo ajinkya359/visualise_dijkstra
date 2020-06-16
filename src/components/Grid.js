@@ -105,6 +105,8 @@ class Grid extends React.Component{
                     </div>
                 ))}
                 <button onClick={this.visualise}> visualise</button>
+                
+                
                 <button onClick={this.handleReset}>Reset</button>
             </div>
         )
