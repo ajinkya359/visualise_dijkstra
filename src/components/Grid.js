@@ -2,11 +2,7 @@ import React from 'react';
 import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
-const rows=25;
-var start_node_row=10
-var start_node_col=20
-var end_node_row=23
-var end_node_col=28   
+const rows=50;  
 const columns=50;
 class Grid extends React.Component{
     constructor(props)
@@ -14,12 +10,14 @@ class Grid extends React.Component{
         super(props)
         this.state={
             grid:[],
+            rows:rows,
+            columns:columns,
             set:null,
             reset:false,
-            start_node_row:start_node_row,
-            start_node_col:start_node_col,
-            end_node_row: end_node_row,
-            end_node_col:end_node_col,
+            start_node_row:10,
+            start_node_col:20,
+            end_node_row: 30,
+            end_node_col:40,
             isClicked:false,
         }
         this.visualise=this.visualise.bind(this)
@@ -33,6 +31,7 @@ class Grid extends React.Component{
         this.handleMouseEnter=this.handleMouseEnter.bind(this)
         this.resetWalls=this.resetWalls.bind(this)
 
+
     }
     
     handleClick=(row,col)=>{
@@ -44,30 +43,27 @@ class Grid extends React.Component{
         this.handleReset()
         if(this.state.set===1){
         var temp=this.state.grid;
-        temp[this.state.start_node_row][start_node_col].isStart=false
+        temp[this.state.start_node_row][this.state.start_node_col].isStart=false
         temp[row][col].isStart=true
         document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node"
         document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).isStart=false
         document.getElementById(`${row}-${col}`).className="node node-start"
         document.getElementById(`${row}-${col}`).isStart=true;
-        start_node_row=row
-        start_node_col=col
         this.setState({start_node_row:row,start_node_col:col,grid:temp})
         }
         else if(this.state.set===2){
         temp=this.state.grid;
-        temp[this.state.end_node_row][end_node_col].isEnd=false
+        if(this.state.end_node_row&&this.state.end_node_col)
+        temp[this.state.end_node_row][this.state.end_node_col].isEnd=false
         temp[row][col].isEnd=true
         document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node"
         document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).isEnd=false
         document.getElementById(`${row}-${col}`).className="node node-finish"
         document.getElementById(`${row}-${col}`).isEnd=true;
-        end_node_row=row
-        end_node_col=col
         this.setState({end_node_row:row,end_node_col:col,grid:temp})
         }
         else{
-            if((row===start_node_row&&col===start_node_col)||(row===end_node_row&&col===end_node_col)) 
+            if((row===this.state.start_node_row&&col===this.state.start_node_col)||(row===this.state.end_node_row&&col===this.state.end_node_col)) 
             return
         temp=this.state.grid;
         if(!temp[row][col].isWall){
@@ -95,13 +91,13 @@ class Grid extends React.Component{
         this.handleReset();
     }
     var temp=this.state.grid
-    const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
+    const order=dykstra(temp,this.state.start_node_row,this.state.start_node_col,this.state.end_node_row,this.state.end_node_col);
         for(let i=0;i<=order.length;i++)
        {
        
         if(i===order.length){
             setTimeout(()=>{
-                var current=temp[end_node_row][end_node_col].parent
+                var current=temp[this.state.end_node_row][this.state.end_node_col].parent
                 while(current&&!current.isStart)
                 {
                     document.getElementById(`${current.row}-${current.col}`).className="node path"
@@ -119,8 +115,8 @@ class Grid extends React.Component{
          }
         setTimeout(()=>{
             document.getElementById(`${order[i].row}-${order[i].col}`).className="node visited"
-            document.getElementById(`${start_node_row}-${start_node_col}`).className="node node-start"
-            document.getElementById(`${end_node_row}-${end_node_col}`).className="node node-end"    
+            document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
+            document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
         },10*i)
         
         // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
@@ -144,8 +140,8 @@ class Grid extends React.Component{
             
             document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
             temp[i][j].isWall=false
-            document.getElementById(`${start_node_row}-${start_node_col}`).className="node node-start"
-            document.getElementById(`${end_node_row}-${end_node_col}`).className="node node-end"    
+            document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
+            document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
         },10*j)
     }
         }    
@@ -192,7 +188,7 @@ class Grid extends React.Component{
     handleMouseEnter=(row,col)=>{
         if(this.state.isClicked&&this.state.set===3)
         { 
-            if((row===start_node_row&&col===start_node_col)||(row===end_node_row&&col===end_node_col)) 
+            if((row===this.state.start_node_row&&col===this.state.start_node_col)||(row===this.state.end_node_row&&col===this.state.end_node_col)) 
             return;
         var temp=this.state.grid;
         if(!temp[row][col].isWall){
@@ -221,8 +217,8 @@ class Grid extends React.Component{
         setTimeout(()=>{
             if(temp[i][j].isWall) return;
             document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
-            document.getElementById(`${start_node_row}-${start_node_col}`).className="node node-start"
-            document.getElementById(`${end_node_row}-${end_node_col}`).className="node node-end"    
+            document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
+            document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
         },10*j)}
         
         // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
@@ -232,10 +228,10 @@ class Grid extends React.Component{
     }
     componentDidMount(){//is called only once in the start
         var g=[];
-        for(let row=0;row<rows;row++)
+        for(let row=0;row<this.state.rows;row++)
         {
             var temp=[];
-            for(let col=0;col<columns;col++){
+            for(let col=0;col<this.state.columns;col++){
                     temp.push(
                           {
                             row:row,
@@ -255,7 +251,33 @@ class Grid extends React.Component{
         }
        this.setState({grid:g})
     }
-    
+    // changeRows(e){
+    //     e.preventDefault();
+    //     console.log(e.target.in.value)
+    //     var g=[];
+    //     for(let row=0;row<e.target.in.value;row++)
+    //     {
+    //         var temp=[];
+    //         for(let col=0;col<this.state.columns;col++){
+    //                 temp.push(
+    //                       {
+    //                         row:row,
+    //                         isWall:false, 
+    //                         parent:null,
+    //                         col:col, 
+    //                         key:row*10+col, 
+    //                         isStart:false,
+    //                         isEnd:false,
+    //                         id:row*10+col,
+    //                         distance:Infinity,
+    //                         isVisited:false,
+    //                       } 
+    //                 )    
+    //         }
+    //         g.push(temp)
+    //     }
+    //    this.setState({grid:g,rows:e.target.in.value,start_node_row:0,start_node_col:0,end_node_row:0,end_node_col:0})
+    // }
     render(){
         return(
             <div className="grid">
@@ -288,6 +310,9 @@ class Grid extends React.Component{
                 <button onClick={this.handleReset} clicked={false} id="set-reset">Reset</button>
                 <button onClick={this.handleWall} clicked={false} id="set-wall">Add Wall</button>
                 <button onClick={this.resetWalls} >Reset Walls</button>
+                {/* <form onSubmit={this.changeRows}>
+                <input name="in"  placeholder={this.state.rows}/>
+                </form> */}
             </div>
         )
     }
