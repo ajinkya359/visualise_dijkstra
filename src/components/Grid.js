@@ -31,6 +31,8 @@ class Grid extends React.Component{
         this.handleMouseDown=this.handleMouseDown.bind(this)
         this.handleMouserUp=this.handleMouserUp.bind(this)
         this.handleMouseEnter=this.handleMouseEnter.bind(this)
+        this.resetWalls=this.resetWalls.bind(this)
+
     }
     
     handleClick=(row,col)=>{
@@ -127,6 +129,28 @@ class Grid extends React.Component{
 
        
     }
+    resetWalls(){
+        this.setState({set:-1})
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className=""
+        var temp=this.state.grid;
+        
+        for(let i=temp.length-1;i>=0;i--){
+        for(let j=0;j<temp[0].length;j++){
+        setTimeout(()=>{
+            
+            document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
+            temp[i][j].isWall=false
+            document.getElementById(`${start_node_row}-${start_node_col}`).className="node node-start"
+            document.getElementById(`${end_node_row}-${end_node_col}`).className="node node-end"    
+        },10*j)
+    }
+        }    
+        this.setState({grid:temp})
+}
     setToStart(){
         document.getElementById('set-start').className="clicked"
         document.getElementById('set-end').className=""
@@ -191,9 +215,7 @@ class Grid extends React.Component{
         document.getElementById('set-reset').className="clicked"
         document.getElementById('set-wall').className=""
         var temp=this.state.grid;
-        const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
-        if(order.length)
-        {
+        
         for(let i=temp.length-1;i>=0;i--){
         for(let j=0;j<temp[0].length;j++){
         setTimeout(()=>{
@@ -205,7 +227,7 @@ class Grid extends React.Component{
         
         // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
        } 
-        }
+        
     
     }
     componentDidMount(){//is called only once in the start
@@ -265,6 +287,7 @@ class Grid extends React.Component{
                 <button onClick={this.visualise} clicked={false} id="set-visualise"> visualise</button>
                 <button onClick={this.handleReset} clicked={false} id="set-reset">Reset</button>
                 <button onClick={this.handleWall} clicked={false} id="set-wall">Add Wall</button>
+                <button onClick={this.resetWalls} >Reset Walls</button>
             </div>
         )
     }
