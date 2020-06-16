@@ -397,12 +397,17 @@ class Grid extends React.Component{
                 <button onClick={this.setToStart} clicked={false} id="set-start">Set Start</button>
                 <button onClick={this.setToEnd} clicked={false} id="set-end">Set End</button>
                 <button onClick={this.visualise} clicked={false} id="set-visualise"> visualise</button>
-                <button onClick={this.handleReset} clicked={false} id="set-reset">Reset</button>
                 <button onClick={this.handleWall} clicked={false} id="set-wall">Add Wall</button>
-                <button onClick={this.resetWalls} >Reset Walls</button>
                 <button onClick={this.setWeight} clicked={false} id="set-weight">Set Weight</button>
+                <br/>
                 <button onClick={this.resetWeights} >Reset Weights</button>
- 
+                <br/>
+                <button onClick={this.resetWalls} >Reset Walls</button>
+                        <br/>
+
+                <button onClick={this.handleReset} clicked={false} id="set-reset">Reset</button>
+
+
                 {/* <form onSubmit={this.inputWeight}>
                 <input name="weight" type="number" placeholder={this.state.weight}/>
                 </form> */}
