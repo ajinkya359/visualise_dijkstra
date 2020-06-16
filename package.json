@@ -2,7 +2,7 @@
   "name": "dykstra-algo",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://github.com/ajinkya359/visualise_dijkstra",
+  "homepage":"https://ajinkya359.github.io/visualise_dijkstra/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
