@@ -2,6 +2,7 @@ import React from 'react';
 import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
+var g=[]
 const rows=25;
 const start_node_row=0
 const start_node_col=20
@@ -57,10 +58,14 @@ class Grid extends React.Component{
            )
         //    console.log(temp1[order[i].row].props.children[order[i].col].props.isVisited)
 
-           this.setState({grid:[]})
-           this.setState({grid:temp1})
+            g=[]
+            this.setState({grid:[]})
+            g=temp1;
+            this.setState({grid:temp1})
+        //    g=this.state.grid
         //    console.log(this.state.grid)
        }          
+       
         // console.log(this.state.grid)
 
     //    console.log(this.state.grid)
@@ -95,14 +100,12 @@ class Grid extends React.Component{
                 </div>
             )
         }
-        this.setState({grid:grid});
         
+       this.setState({grid:grid})
     }
     
     render(){
-        console.log("called")
-        // console.log(this.state.grid)
-        {console.log(this.state.grid)}
+      console.log("called")
         return(
             <div className="grid">
                 {this.state.grid}
