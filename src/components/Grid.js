@@ -20,6 +20,7 @@ class Grid extends React.Component{
             start_node_col:start_node_col,
             end_node_row: end_node_row,
             end_node_col:end_node_col,
+            isClicked:false,
         }
         this.visualise=this.visualise.bind(this)
         this.handleReset=this.handleReset.bind(this)
@@ -27,7 +28,9 @@ class Grid extends React.Component{
         this.setToStart=this.setToStart.bind(this)
         this.setToEnd=this.setToEnd.bind(this)
         this.handleWall=this.handleWall.bind(this)
-
+        this.handleMouseDown=this.handleMouseDown.bind(this)
+        this.handleMouserUp=this.handleMouserUp.bind(this)
+        this.handleMouseEnter=this.handleMouseEnter.bind(this)
     }
     
     handleClick=(row,col)=>{
@@ -50,7 +53,7 @@ class Grid extends React.Component{
         this.setState({start_node_row:row,start_node_col:col,grid:temp})
         }
         else if(this.state.set===2){
-            var temp=this.state.grid;
+        temp=this.state.grid;
         temp[this.state.end_node_row][end_node_col].isEnd=false
         temp[row][col].isEnd=true
         document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node"
@@ -64,7 +67,7 @@ class Grid extends React.Component{
         else{
             if((row===start_node_row&&col===start_node_col)||(row===end_node_row&&col===end_node_col)) 
             return
-        var temp=this.state.grid;
+        temp=this.state.grid;
         if(!temp[row][col].isWall){
         temp[row][col].isWall=true;
         document.getElementById(`${row}-${col}`).className="node wall"
@@ -79,6 +82,12 @@ class Grid extends React.Component{
     }
     }
     visualise(){
+        this.setState({set:-1})
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className="clicked"
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className=""
     if(this.state.reset)
     {
         this.handleReset();
@@ -119,20 +128,68 @@ class Grid extends React.Component{
        
     }
     setToStart(){
+        document.getElementById('set-start').className="clicked"
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className=""
         var temp =1
         // e.style="background_color=green"
         this.setState({set:temp})
     }
     setToEnd(){
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className="clicked"
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className=""
         var temp =2
         this.setState({set:temp})
     }
     handleWall(){
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className="clicked"
         var temp=3;
         this.setState({set:temp})
     }
+    handleMouseDown(){
+        var temp=this.state.isClicked;
+        if(temp===false) temp=true
+        this.setState({isClicked:temp})
+    }
+    handleMouserUp(){
+        var temp=this.state.isClicked
+        if(temp) temp=false
+        this.setState({isClicked:temp})
+    }
+    handleMouseEnter=(row,col)=>{
+        if(this.state.isClicked&&this.state.set===3)
+        { 
+            if((row===start_node_row&&col===start_node_col)||(row===end_node_row&&col===end_node_col)) 
+            return;
+        var temp=this.state.grid;
+        if(!temp[row][col].isWall){
+        temp[row][col].isWall=true;
+        document.getElementById(`${row}-${col}`).className="node wall"
+        this.setState({grid:temp})
+    }
+        else{
+          temp[row][col].isWall=false;
+          document.getElementById(`${row}-${col}`).className="node"
+          this.setState({grid:temp})
+        }
+        }
+    }
     handleReset(){
-        
+        this.setState({set:-1})
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className="clicked"
+        document.getElementById('set-wall').className=""
         var temp=this.state.grid;
         const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
         if(order.length)
@@ -194,17 +251,20 @@ class Grid extends React.Component{
                             isEnd={idr===this.state.end_node_row?(idc===this.state.end_node_col?true:false):false}
                             distance={col.distance}
                             isVisited={col.isVisited}
-                            onClick={this.handleClick}>
+                            onClick={this.handleClick}
+                            onMouseDown={this.handleMouseDown}
+                            onMouseUp={this.handleMouserUp}
+                            onMouseEnter={this.handleMouseEnter}>
                             </Node>
                             
                         )}
                     </div>
                 ))}
-                <button onClick={this.setToStart}>Set Start</button>
-                <button onClick={this.setToEnd}>Set End</button>
-                <button onClick={this.visualise}> visualise</button>
-                <button onClick={this.handleReset}>Reset</button>
-                <button onClick={this.handleWall}>Add Wall</button>
+                <button onClick={this.setToStart} clicked={false} id="set-start">Set Start</button>
+                <button onClick={this.setToEnd} clicked={false} id="set-end">Set End</button>
+                <button onClick={this.visualise} clicked={false} id="set-visualise"> visualise</button>
+                <button onClick={this.handleReset} clicked={false} id="set-reset">Reset</button>
+                <button onClick={this.handleWall} clicked={false} id="set-wall">Add Wall</button>
             </div>
         )
     }

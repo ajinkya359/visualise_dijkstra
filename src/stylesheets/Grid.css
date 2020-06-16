@@ -11,3 +11,6 @@
 header{
     text-align: center;
 }
+.clicked{
+    background-color: brown;
+}

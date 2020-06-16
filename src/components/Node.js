@@ -8,7 +8,10 @@ class Node extends React.Component{
         }
     }
     
-    handleClick=(e)=>{
+    handleEnter=(e)=>{
+        this.props.onMouseEnter(this.props.row,this.props.col)
+    }
+    click=(e)=>{
         this.props.onClick(this.props.row,this.props.col)
     }
     render(){
@@ -28,7 +31,13 @@ class Node extends React.Component{
             extraClassname="node-end"
 
         return(
-            <div className={`node ${extraClassname}`} id={`${this.props.row}-${this.props.col}`} onClick={this.handleClick}>
+            <div 
+            className={`node ${extraClassname}`} 
+            id={`${this.props.row}-${this.props.col}`} 
+            onClick={this.click}
+            onMouseDown={this.props.onMouseDown}
+            onMouseUp={this.props.onMouseUp}
+            onMouseEnter={this.handleEnter} >
             </div>
         )
     }
