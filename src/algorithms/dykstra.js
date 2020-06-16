@@ -88,8 +88,8 @@ export function dykstra(grid,start_row,start_col,end_row,end_col){
     return order
 }
 function max(a,b){
-    if(a.distance>b.distance+1){
-        a.distance=b.distance+1
+    if(a.distance>b.distance+b.weight){
+        a.distance=b.distance+b.weight
         a.parent=b;
     }
 }

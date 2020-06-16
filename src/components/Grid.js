@@ -19,6 +19,7 @@ class Grid extends React.Component{
             end_node_row: 22,
             end_node_col:40,
             isClicked:false,
+            weight:10
         }
         this.visualise=this.visualise.bind(this)
         this.handleReset=this.handleReset.bind(this)
@@ -30,6 +31,9 @@ class Grid extends React.Component{
         this.handleMouserUp=this.handleMouserUp.bind(this)
         this.handleMouseEnter=this.handleMouseEnter.bind(this)
         this.resetWalls=this.resetWalls.bind(this)
+        this.setWeight=this.setWeight.bind(this)
+        this.resetWeights=this.resetWeights.bind(this)
+        this.inputWeight=this.inputWeight.bind(this)
 
 
     }
@@ -62,6 +66,22 @@ class Grid extends React.Component{
         document.getElementById(`${row}-${col}`).isEnd=true;
         this.setState({end_node_row:row,end_node_col:col,grid:temp})
         }
+        else if(this.state.set===4)
+        {
+            if((row===this.state.start_node_row&&col===this.state.start_node_col)||(row===this.state.end_node_row&&col===this.state.end_node_col)) 
+            return
+        temp=this.state.grid;
+        if(temp[row][col].weight===1){
+        temp[row][col].weight=this.state.weight;
+        document.getElementById(`${row}-${col}`).className="node weight"
+        this.setState({grid:temp})
+    }
+        else{
+          temp[row][col].weight=1;
+          document.getElementById(`${row}-${col}`).className="node"
+          this.setState({grid:temp})
+        }
+        }
         else{
             if((row===this.state.start_node_row&&col===this.state.start_node_col)||(row===this.state.end_node_row&&col===this.state.end_node_col)) 
             return
@@ -85,6 +105,8 @@ class Grid extends React.Component{
         document.getElementById('set-end').className=""
         document.getElementById('set-visualise').className="clicked"
         document.getElementById('set-reset').className=""
+        document.getElementById('set-weight').className=""
+
         document.getElementById('set-wall').className=""
     if(this.state.reset)
     {
@@ -115,6 +137,8 @@ class Grid extends React.Component{
          }
         setTimeout(()=>{
             document.getElementById(`${order[i].row}-${order[i].col}`).className="node visited"
+            if(temp[order[i].row][order[i].col].weight!==1)
+            document.getElementById(`${order[i].row}-${order[i].col}`).className="node weight"
             document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
             document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
         },10*i)
@@ -125,6 +149,30 @@ class Grid extends React.Component{
 
        
     }
+    resetWeights(){
+        this.setState({set:-1})
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className=""
+        document.getElementById('set-weight').className=""
+
+        var temp=this.state.grid;
+        
+        for(let i=temp.length-1;i>=0;i--){
+        for(let j=0;j<temp[0].length;j++){
+        setTimeout(()=>{
+            
+            document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
+            temp[i][j].weight=1
+            document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
+            document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
+        },10*j)
+    }
+        }    
+        this.setState({grid:temp})
+    }
     resetWalls(){
         this.setState({set:-1})
         document.getElementById('set-start').className=""
@@ -132,12 +180,14 @@ class Grid extends React.Component{
         document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
+        document.getElementById('set-weight').className=""
+
         var temp=this.state.grid;
         
         for(let i=temp.length-1;i>=0;i--){
         for(let j=0;j<temp[0].length;j++){
         setTimeout(()=>{
-            
+            if(temp[i][j].weight!==1) return
             document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
             temp[i][j].isWall=false
             document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
@@ -153,9 +203,23 @@ class Grid extends React.Component{
         document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
+        document.getElementById('set-weight').className=""
+
         var temp =1
         // e.style="background_color=green"
         this.setState({set:temp})
+    }
+    setWeight(){
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
+        document.getElementById('set-visualise').className=""
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-wall').className=""
+        document.getElementById('set-weight').className="clicked"
+
+        var temp =4
+        this.setState({set:temp})
+        
     }
     setToEnd(){
         document.getElementById('set-start').className=""
@@ -163,6 +227,8 @@ class Grid extends React.Component{
         document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
+        document.getElementById('set-weight').className=""
+
         var temp =2
         this.setState({set:temp})
     }
@@ -172,6 +238,9 @@ class Grid extends React.Component{
         document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className="clicked"
+        document.getElementById('set-weight').className=""
+
+
         var temp=3;
         this.setState({set:temp})
     }
@@ -210,12 +279,14 @@ class Grid extends React.Component{
         document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className="clicked"
         document.getElementById('set-wall').className=""
+        document.getElementById('set-weight').className=""
+
         var temp=this.state.grid;
         
         for(let i=temp.length-1;i>=0;i--){
         for(let j=0;j<temp[0].length;j++){
         setTimeout(()=>{
-            if(temp[i][j].isWall) return;
+            if(temp[i][j].isWall||temp[i][j].weight!==1) return;
             document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
             document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
             document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
@@ -244,6 +315,7 @@ class Grid extends React.Component{
                             id:row*10+col,
                             distance:Infinity,
                             isVisited:false,
+                            weight:1,
                           } 
                     )    
             }
@@ -278,6 +350,23 @@ class Grid extends React.Component{
     //     }
     //    this.setState({grid:g,rows:e.target.in.value,start_node_row:0,start_node_col:0,end_node_row:0,end_node_col:0})
     // }
+    inputWeight(e){
+        e.preventDefault();
+        var temp1=e.target.weight.value
+        this.setState({weight:temp1})
+        var temp=this.state.grid;
+        for(let i=0;i<this.state.row;i++)
+        {
+            for(let j=0;j<this.state.col;j++)
+            {
+                if(temp[i][j].weight!==1)
+                    temp[i][j].weight=temp1;
+            }
+        }
+        this.setState({grid:temp})
+        console.log(this.state.weight)
+    }
+
     render(){
         return(
             <div className="grid">
@@ -290,6 +379,7 @@ class Grid extends React.Component{
                             row={idr} 
                             parent={null}
                             col={idc}
+                            weight={col.weight}
                             key={idr*10+idc} 
                             isStart={idr===this.state.start_node_row?(idc===this.state.start_node_col?true:false):false}
                             isEnd={idr===this.state.end_node_row?(idc===this.state.end_node_col?true:false):false}
@@ -310,8 +400,11 @@ class Grid extends React.Component{
                 <button onClick={this.handleReset} clicked={false} id="set-reset">Reset</button>
                 <button onClick={this.handleWall} clicked={false} id="set-wall">Add Wall</button>
                 <button onClick={this.resetWalls} >Reset Walls</button>
-                {/* <form onSubmit={this.changeRows}>
-                <input name="in"  placeholder={this.state.rows}/>
+                <button onClick={this.setWeight} clicked={false} id="set-weight">Set Weight</button>
+                <button onClick={this.resetWeights} >Reset Weights</button>
+ 
+                {/* <form onSubmit={this.inputWeight}>
+                <input name="weight" type="number" placeholder={this.state.weight}/>
                 </form> */}
             </div>
         )
