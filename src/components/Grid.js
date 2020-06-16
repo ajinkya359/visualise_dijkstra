@@ -16,7 +16,7 @@ class Grid extends React.Component{
             reset:false,
             start_node_row:10,
             start_node_col:20,
-            end_node_row: 30,
+            end_node_row: 22,
             end_node_col:40,
             isClicked:false,
         }
