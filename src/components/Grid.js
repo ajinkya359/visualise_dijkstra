@@ -3,9 +3,9 @@ import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
 const rows=25;
-const start_node_row=0
+const start_node_row=10
 const start_node_col=0
-const end_node_row=12
+const end_node_row=10
 const end_node_col=20
 const columns=50;
 class Grid extends React.Component{
@@ -24,29 +24,39 @@ class Grid extends React.Component{
 
         }
     
-    visualise(){   
-    const order=dykstra(this.state.grid,start_node_row,start_node_col,end_node_row,end_node_col);
-        for(let i=0;i<order.length;i++)
+    visualise(){
+    var temp=this.state.grid
+    const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
+    console.log(temp)
+    
+        for(let i=0;i<=order.length;i++)
        {
-        //    console.log(temp1[order[i].row].props.children[order[i].col].props.isVisited)
-        //    temp1[order[i].row][order[i].col].isVisited=true
-        //    fi=temp1
-        //    this.setState({grid:temp1})
-        //    setTimeout(1000)
+       
+        if(i===order.length){
+            setTimeout(()=>{
+                var current=temp[end_node_row][end_node_col].parent
+                while(!current.isStart)
+                {
+                    console.log(current)
+                    document.getElementById(`${current.row}-${current.col}`).className="node path"
+                    current=current.parent
+                }
+            },10*i)
+            return;
+         }
         setTimeout(()=>{
-            // console.log(order[i].row*10+order[i].col)
-            // console.log(document.getElementById(`${order[i].row}-${order[i].col}`))
             document.getElementById(`${order[i].row}-${order[i].col}`).className="node visited"
             document.getElementById(`${start_node_row}-${start_node_col}`).className="node node-start"
             document.getElementById(`${end_node_row}-${end_node_col}`).className="node node-end"    
         },10*i)
         
         // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
-       }      
+       }
+       
     }
     handleReset(){
-        const order=dykstra(this.state.grid,start_node_row,start_node_col,end_node_row,end_node_col);
-
+        var temp=this.state.grid;
+        const order=dykstra(temp,start_node_row,start_node_col,end_node_row,end_node_col);
         if(order.length)
         {
         for(let i=order.length-1;i>=0;i--){
