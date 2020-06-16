@@ -2,7 +2,7 @@ import React from 'react';
 import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
-const rows=50;  
+const rows=25;  
 const columns=50;
 class Grid extends React.Component{
     constructor(props)
