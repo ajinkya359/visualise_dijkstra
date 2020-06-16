@@ -7,7 +7,7 @@ export function dykstra(grid,start_row,start_col,end_row,end_col){
     {
         for(let j=0;j<grid[0].length;j++){
             grid[i][j].parent=null;
-            grid[i][j].distance=Infinity
+            grid[i][j].distance=Infinity;
             queue.push(grid[i][j]);
         }
     }
