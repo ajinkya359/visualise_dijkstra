@@ -130,14 +130,14 @@ class Grid extends React.Component{
                     if(!current){
                         break;
                     }
-                    number_of_nodes++;
+                    number_of_nodes+=current.weight;
                 }
                 if(current===null){
                     document.getElementById('number-of-nodes').innerHTML="no path found"
                     return;
                 }
                 if(current.isStart)
-                document.getElementById('number-of-nodes').innerHTML=number_of_nodes
+                document.getElementById('number-of-nodes').innerHTML=`Total Distance Travelled = ${number_of_nodes}`
             },10*i)
             return;
          }
@@ -183,14 +183,14 @@ class Grid extends React.Component{
                     if(!current){
                         break;
                     }
-                    number_of_nodes++;
+                    number_of_nodes+=current.weight;
                 }
                 if(current===null){
                     document.getElementById('number-of-nodes').innerHTML="no path found"
                     return;
                 }
                 if(current.isStart)
-                document.getElementById('number-of-nodes').innerHTML=number_of_nodes
+                document.getElementById('number-of-nodes').innerHTML=`Total Distance Travelled = ${number_of_nodes}`
             },10*i)
 
             return;
@@ -424,7 +424,7 @@ class Grid extends React.Component{
         return(
             <div className="grid">
                       <header>Dijkstra's algorithm</header>
-                    <h3 id="number-of-nodes">0</h3>
+                    <h3 id="number-of-nodes">Total Distance Travelled = 0</h3>
                 {this.state.grid.map((row,idr)=>(
                     <div className="grid-row" key={idr*1000+1}>
                         {row.map((col,idc)=>
