@@ -1,7 +1,7 @@
 import React from 'react';
 import Node from './Node';
 import '../stylesheets/Grid.css'
-import {dykstra} from '../algorithms/dykstra'
+import {dykstra,a_star} from '../algorithms/dykstra'
 const rows=50;  
 const columns=50;
 class Grid extends React.Component{
@@ -21,7 +21,9 @@ class Grid extends React.Component{
             isClicked:false,
             weight:10
         }
-        this.visualise=this.visualise.bind(this)
+        this.dijkistra=this.dijkistra.bind(this)
+        this.a_star=this.a_star.bind(this)
+
         this.handleReset=this.handleReset.bind(this)
         this.handleClick=this.handleClick.bind(this)
         this.setToStart=this.setToStart.bind(this)
@@ -99,11 +101,64 @@ class Grid extends React.Component{
         
     }
     }
-    visualise(){
+    a_star(){
         this.setState({set:-1})
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className="clicked"
+        document.getElementById('set-reset').className=""
+        document.getElementById('set-weight').className=""
+
+        document.getElementById('set-wall').className=""
+    if(this.state.reset)
+    {
+        this.handleReset();
+    }
+    var temp=this.state.grid
+    const order=a_star(temp,this.state.start_node_row,this.state.start_node_col,this.state.end_node_row,this.state.end_node_col);
+        for(let i=0;i<=order.length;i++)
+       {
+       
+        if(i===order.length){
+            setTimeout(()=>{
+                var number_of_nodes=0
+
+                var current=temp[this.state.end_node_row][this.state.end_node_col].parent
+                while(current&&!current.isStart)
+                {
+                    document.getElementById(`${current.row}-${current.col}`).className="node path"
+                    current=current.parent
+                    if(!current){
+                        break;
+                    }
+                    number_of_nodes++;
+                }
+                if(current===null){
+                    document.getElementById('number-of-nodes').innerHTML="no path found"
+                    return;
+                }
+                if(current.isStart)
+                document.getElementById('number-of-nodes').innerHTML=number_of_nodes
+            },10*i)
+            return;
+         }
+        setTimeout(()=>{
+            document.getElementById(`${order[i].row}-${order[i].col}`).className="node visited"
+            if(temp[order[i].row][order[i].col].weight!==1)
+            document.getElementById(`${order[i].row}-${order[i].col}`).className="node weight"
+            document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
+            document.getElementById(`${this.state.end_node_row}-${this.state.end_node_col}`).className="node node-end"    
+        },10*i)
+        
+        // document.getElementById(`${order[i].row*10+order[i]}`).className="node node-vi"
+       }
+       this.setState({reset:true})
+
+       
+    }
+    dijkistra(){
+        this.setState({set:-1})
+        document.getElementById('set-start').className=""
+        document.getElementById('set-end').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-weight').className=""
 
@@ -118,6 +173,7 @@ class Grid extends React.Component{
        {
        
         if(i===order.length){
+            var number_of_nodes=0
             setTimeout(()=>{
                 var current=temp[this.state.end_node_row][this.state.end_node_col].parent
                 while(current&&!current.isStart)
@@ -125,14 +181,18 @@ class Grid extends React.Component{
                     document.getElementById(`${current.row}-${current.col}`).className="node path"
                     current=current.parent
                     if(!current){
-                        console.log("no path")
                         break;
                     }
+                    number_of_nodes++;
                 }
                 if(current===null){
-                    window.alert("No path found")
+                    document.getElementById('number-of-nodes').innerHTML="no path found"
+                    return;
                 }
+                if(current.isStart)
+                document.getElementById('number-of-nodes').innerHTML=number_of_nodes
             },10*i)
+
             return;
          }
         setTimeout(()=>{
@@ -153,7 +213,6 @@ class Grid extends React.Component{
         this.setState({set:-1})
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
         document.getElementById('set-weight').className=""
@@ -177,7 +236,6 @@ class Grid extends React.Component{
         this.setState({set:-1})
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
         document.getElementById('set-weight').className=""
@@ -200,7 +258,6 @@ class Grid extends React.Component{
     setToStart(){
         document.getElementById('set-start').className="clicked"
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
         document.getElementById('set-weight').className=""
@@ -212,7 +269,6 @@ class Grid extends React.Component{
     setWeight(){
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
         document.getElementById('set-weight').className="clicked"
@@ -224,7 +280,6 @@ class Grid extends React.Component{
     setToEnd(){
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className="clicked"
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className=""
         document.getElementById('set-weight').className=""
@@ -235,7 +290,6 @@ class Grid extends React.Component{
     handleWall(){
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className=""
         document.getElementById('set-wall').className="clicked"
         document.getElementById('set-weight').className=""
@@ -276,7 +330,6 @@ class Grid extends React.Component{
         this.setState({set:-1})
         document.getElementById('set-start').className=""
         document.getElementById('set-end').className=""
-        document.getElementById('set-visualise').className=""
         document.getElementById('set-reset').className="clicked"
         document.getElementById('set-wall').className=""
         document.getElementById('set-weight').className=""
@@ -371,7 +424,7 @@ class Grid extends React.Component{
         return(
             <div className="grid">
                       <header>Dijkstra's algorithm</header>
-
+                    <h3 id="number-of-nodes">0</h3>
                 {this.state.grid.map((row,idr)=>(
                     <div className="grid-row" key={idr*1000+1}>
                         {row.map((col,idc)=>
@@ -396,7 +449,9 @@ class Grid extends React.Component{
                 ))}
                 <button onClick={this.setToStart} clicked={false} id="set-start">Set Start</button>
                 <button onClick={this.setToEnd} clicked={false} id="set-end">Set End</button>
-                <button onClick={this.visualise} clicked={false} id="set-visualise"> visualise</button>
+                <button onClick={this.dijkistra} clicked={false} >Dijkistra</button>
+                <button onClick={this.a_star} clicked={false} >A*</button>
+
                 <button onClick={this.handleWall} clicked={false} id="set-wall">Add Wall</button>
                 <button onClick={this.setWeight} clicked={false} id="set-weight">Set Weight</button>
                 <br/>
