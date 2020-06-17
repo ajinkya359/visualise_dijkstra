@@ -2,7 +2,7 @@ import React from 'react';
 import Node from './Node';
 import '../stylesheets/Grid.css'
 import {dykstra} from '../algorithms/dykstra'
-const rows=25;  
+const rows=50;  
 const columns=50;
 class Grid extends React.Component{
     constructor(props)
@@ -163,7 +163,7 @@ class Grid extends React.Component{
         for(let i=temp.length-1;i>=0;i--){
         for(let j=0;j<temp[0].length;j++){
         setTimeout(()=>{
-            
+            if(temp[i][j].isWall===false)
             document.getElementById(`${temp[i][j].row}-${temp[i][j].col}`).className="node"
             temp[i][j].weight=1
             document.getElementById(`${this.state.start_node_row}-${this.state.start_node_col}`).className="node node-start"
